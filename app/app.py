@@ -8,6 +8,7 @@ import pickle
 import os
 import hashlib
 from datetime import datetime, timedelta
+import urllib.request
 
 # ==================================================
 # 📱 PAGE CONFIG
@@ -37,6 +38,23 @@ def hash_pw(pw: str) -> str:
 # ==================================================
 os.makedirs("data", exist_ok=True)
 os.makedirs("models", exist_ok=True)
+
+# ==================================================
+# ⬇️ AUTO-DOWNLOAD DATASETS (STREAMLIT CLOUD SAFE)
+# ==================================================
+DATA_FILES = {
+    "data/Electronics.csv.gz": "https://drive.google.com/file/d/1D77sIgrXWztQrXVZgBYPsn8RfpZ_bfA1/view?usp=sharing",
+    "data/asin_title_map.csv": "https://drive.google.com/file/d/1p0L17ZJ7XsTHL6tlM19BN5QQYDFjBY3P/view?usp=sharing",
+    "data/asin_image_map.csv": "https://drive.google.com/file/d/1Yr9S8rHK9-7qauSy2GmQx1-CINwqSBQN/view?usp=sharing",
+}
+
+def ensure_data():
+    os.makedirs("data", exist_ok=True)
+    for path, url in DATA_FILES.items():
+        if not os.path.exists(path):
+            st.info(f"⬇️ Downloading {os.path.basename(path)}...")
+            urllib.request.urlretrieve(url, path)
+
 
 # ==================================================
 # 👥 USER STORAGE
@@ -158,6 +176,7 @@ def load_data():
     with open("models/final_svd_model.pkl", "rb") as f:
         model = pickle.load(f)
     return df, titles, images, model
+ensure_data()
 
 df, titles, images, model = load_data()
 
