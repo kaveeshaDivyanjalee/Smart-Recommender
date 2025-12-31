@@ -1,0 +1,15 @@
+credentials:
+  usernames:
+    admin:
+      email: admin@example.com
+      name: Admin User
+      password: $2b$12$K/tTsP26kLpSar1XlMsUTu.U0K3r6/qBDYnFlYDztbvB8dEOURiSq
+
+cookie:
+  expiry_days: 30
+  key: your-secret-key-here
+  name: your-app-name
+
+preauthorized:
+  emails:
+    - admin@example.com
