@@ -43,9 +43,14 @@ os.makedirs("models", exist_ok=True)
 # ⬇️ AUTO-DOWNLOAD DATASETS (STREAMLIT CLOUD SAFE)
 # ==================================================
 DATA_FILES = {
-    "data/Electronics.csv.gz": "https://drive.google.com/file/d/1D77sIgrXWztQrXVZgBYPsn8RfpZ_bfA1/view?usp=sharing",
-    "data/asin_title_map.csv": "https://drive.google.com/file/d/1p0L17ZJ7XsTHL6tlM19BN5QQYDFjBY3P/view?usp=sharing",
-    "data/asin_image_map.csv": "https://drive.google.com/file/d/1Yr9S8rHK9-7qauSy2GmQx1-CINwqSBQN/view?usp=sharing",
+    "data/Electronics.csv.gz":
+        "https://github.com/kaveeshaDivyanjalee/Smart-Recommender/releases/download/v1.0/Electronics.csv.gz",
+
+    "data/asin_title_map.csv":
+        "https://github.com/kaveeshaDivyanjalee/Smart-Recommender/releases/download/v1.0/asin_title_map.csv",
+
+    "data/asin_image_map.csv":
+        "https://github.com/kaveeshaDivyanjalee/Smart-Recommender/releases/download/v1.0/asin_image_map.csv",
 }
 
 def ensure_data():
