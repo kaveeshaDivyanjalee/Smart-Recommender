@@ -181,12 +181,22 @@ is_admin = st.session_state.role == "admin"
 # ==================================================
 @st.cache_data(show_spinner=False)
 def load_data():
-    df = pd.read_csv("data/Electronics.csv.gz", compression="gzip")
-    titles = pd.read_csv("data/asin_title_map.csv")
-    images = pd.read_csv("data/asin_image_map.csv")
-    with open("models/final_svd_model.pkl", "rb") as f:
-        model = pickle.load(f)
-    return df, titles, images, model
+    try:
+        df = pd.read_csv("data/Electronics.csv.gz", compression="gzip")
+        titles = pd.read_csv("data/asin_title_map.csv")
+        images = pd.read_csv("data/asin_image_map.csv")
+
+        st.info("📦 Loading model...")
+        with open("models/final_svd_model.pkl", "rb") as f:
+            model = pickle.load(f)
+
+        return df, titles, images, model
+
+    except Exception as e:
+        st.error("❌ Failed while loading data/model")
+        st.exception(e)
+        st.stop()
+
 ensure_data()
 
 df, titles, images, model = load_data()
