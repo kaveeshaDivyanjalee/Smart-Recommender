@@ -51,14 +51,20 @@ DATA_FILES = {
 
     "data/asin_image_map.csv":
         "https://github.com/kaveeshaDivyanjalee/Smart-Recommender/releases/download/v1.0/asin_image_map.csv",
+
+    "models/final_svd_model.pkl":
+        "https://github.com/kaveeshaDivyanjalee/Smart-Recommender/releases/download/v1.0/final_svd_model.pkl",
 }
 
 def ensure_data():
     os.makedirs("data", exist_ok=True)
+    os.makedirs("models", exist_ok=True)
+
     for path, url in DATA_FILES.items():
         if not os.path.exists(path):
             st.info(f"⬇️ Downloading {os.path.basename(path)}...")
             urllib.request.urlretrieve(url, path)
+
 
 
 # ==================================================
