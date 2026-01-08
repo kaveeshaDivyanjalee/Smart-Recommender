@@ -57,14 +57,24 @@ DATA_FILES = {
 }
 
 def ensure_data():
-    os.makedirs("data", exist_ok=True)
-    os.makedirs("models", exist_ok=True)
+    if st.session_state.data_ready:
+        return
 
-    for path, url in DATA_FILES.items():
+    st.title("⏳ Preparing application (one-time setup)")
+    progress = st.progress(0)
+
+    files = list(DATA_FILES.items())
+    total = len(files)
+
+    for i, (path, url) in enumerate(files, start=1):
         if not os.path.exists(path):
-            st.info(f"⬇️ Downloading {os.path.basename(path)}...")
-            urllib.request.urlretrieve(url, path)
+            with st.spinner(f"Downloading {os.path.basename(path)}..."):
+                urllib.request.urlretrieve(url, path)
+        progress.progress(i / total)
 
+    st.session_state.data_ready = True
+    st.success("✅ Setup complete")
+    st.rerun()
 
 
 # ==================================================
@@ -103,6 +113,10 @@ if "admin" not in users_df.username.values:
 # ==================================================
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
+
+if "data_ready" not in st.session_state:
+    st.session_state.data_ready = False
+
 
 # ==================================================
 # 🔐 LOGIN / SIGNUP / RESET
@@ -179,14 +193,14 @@ is_admin = st.session_state.role == "admin"
 # ==================================================
 # ⚡ LOAD DATA (CACHED)
 # ==================================================
-@st.cache_data(show_spinner=False)
+
 def load_data():
     try:
         df = pd.read_csv("data/Electronics.csv.gz", compression="gzip")
         titles = pd.read_csv("data/asin_title_map.csv")
         images = pd.read_csv("data/asin_image_map.csv")
 
-        st.info("📦 Loading model...")
+        
         with open("models/final_svd_model.pkl", "rb") as f:
             model = pickle.load(f)
 
