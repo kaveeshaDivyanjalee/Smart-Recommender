@@ -62,7 +62,7 @@ No manual setup needed ✅
 git clone https://github.com/kaveeshaDivyanjalee/Smart-Recommender.git
 cd Smart-Recommender
 pip install -r requirements.txt
-streamlit run app.py
+python -m streamlit run app/app.py
 
 👑 Admin Login
 Username: admin
